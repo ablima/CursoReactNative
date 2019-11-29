@@ -1,0 +1,6 @@
+- Criar Google API KEY (Google Maps Plataform)
+- Ativar o serviço de Maps SDK for Android / Maps SDK from IOS
+- Adicionar react-native-maps no projeto
+- Executar "npx react-native link react-native-maps"
+
+- Se der erro em supportLibVersion, adicionar em Android/build.gradle -> "supportLibVersion = "28.0.0"" no objec buildscript -> ext

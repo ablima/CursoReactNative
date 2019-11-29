@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image} from 'react-native';
+import {View, Image, Button} from 'react-native';
 
 import ImageCard from './../../Components/ImageCard/imageCard';
 import RoundCard from './../../Components/RoundCard/roundCard';
@@ -10,6 +10,8 @@ import ScrollContainer from './../../Components/ScrollContainer/scrollContainer'
 import Image1 from './../../Assets/images/bloodborne.jpg';
 import Image2 from './../../Assets/images/sekiro.jpg';
 import Image3 from './../../Assets/images/darkSouls.jpeg';
+
+import {Actions} from 'react-native-router-flux';
 
 class HomeScreen extends React.Component {
 
@@ -68,6 +70,8 @@ class HomeScreen extends React.Component {
 
         return (
             <View>
+                <Button title="Go to map" onPress={() => Actions.map()} />
+
                 <Swiper autoplay={true} showsPagination={false} style={{height: 200}}>
                     {this.renderImages(data)}
                 </Swiper>
