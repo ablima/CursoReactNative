@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, Button} from 'react-native';
+import {View, Text, Image, Button} from 'react-native';
 
 import ImageCard from './../../Components/ImageCard/imageCard';
 import RoundCard from './../../Components/RoundCard/roundCard';
@@ -12,6 +12,7 @@ import Image2 from './../../Assets/images/sekiro.jpg';
 import Image3 from './../../Assets/images/darkSouls.jpeg';
 
 import {Actions} from 'react-native-router-flux';
+import { connect } from 'react-redux';
 
 class HomeScreen extends React.Component {
 
@@ -45,7 +46,7 @@ class HomeScreen extends React.Component {
 
     renderUsers() {
         return this.state.users.map(user => {
-            let avatar = {uri: user.avatar};            
+            let avatar = {uri: user.avatar};
             let username = user.first_name + ' ' + user.last_name;
 
             return (
@@ -70,6 +71,10 @@ class HomeScreen extends React.Component {
 
         return (
             <View>
+                <Text style={{fontSize: 50}}>
+                    {this.props.user.currentUser ? this.props.user.currentUser.name : "No user logged"}
+                </Text>
+
                 <Button title="Go to map" onPress={() => Actions.map()} />
 
                 <Swiper autoplay={true} showsPagination={false} style={{height: 200}}>
@@ -100,4 +105,9 @@ class HomeScreen extends React.Component {
 
 }
 
-export default HomeScreen;
+const mapStateToProps = function(state){
+    const { user } = state;
+    return { user };
+};
+
+export default connect(mapStateToProps)(HomeScreen);

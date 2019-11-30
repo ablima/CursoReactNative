@@ -12,6 +12,12 @@ import HomeIcon from './../../Assets/images/homeIcon.png';
 import FormIcon from './../../Assets/images/formIcon.png';
 import CameraIcon from './../../Assets/images/cameraIcon.png';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setUser } from './../../Actions/UserActions';
+
 class MainScreen extends React.Component {
 
     constructor(props){
@@ -34,7 +40,25 @@ class MainScreen extends React.Component {
                 screen: (<CameraScreen />)
             }
         ];
+
+        this.getUser = this.getUser.bind(this);
     }
+
+    componentDidMount(){
+        this.getUser();
+    }
+
+    async getUser(){
+        try{
+            const user = await AsyncStorage.getItem('@currentUser');
+            if(user !== null){
+                let userObj = JSON.parse(user);
+                this.props.setUser(userObj);
+            }
+        } catch(e) {
+            console.error(e);
+        }
+    };
 
     render() {
         return (
@@ -46,4 +70,10 @@ class MainScreen extends React.Component {
 
 }
 
-export default MainScreen;
+const mapDispatchToProps = function(dispatch){
+    return bindActionCreators({
+        setUser
+    }, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(MainScreen);
