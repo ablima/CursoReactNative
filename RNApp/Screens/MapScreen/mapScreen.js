@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Button, Text} from 'react-native';
+import {View, Button, Text, Image} from 'react-native';
 
 import MapView, {Marker, Callout} from 'react-native-maps';
 
@@ -20,9 +20,9 @@ class MapScreen extends React.Component {
                 longitude: -60.017282    
             },
             pitch: 0,
-            heading: 0,
-            zoom: 10,
-            altitude: 16
+            heading: 270,
+            zoom: 10, //Android
+            altitude: 10000  //iOS
         };
 
         this.markers = [
@@ -31,17 +31,17 @@ class MapScreen extends React.Component {
                     latitude: -3.011529,
                     longitude: -60.017282
                 },
-                title: "EU SOU O MARKER 1",
-                description: "Olá",
+                title: "TITULO",
+                description: "DESCRIPTION",
                 status: 0
             },
             {
                 coordinate: {
-                    latitude: -3.0300688,
-                    longitude: -59.9839064
+                    latitude: -3.1393,
+                    longitude: -60.3604
                 },
-                title: "EU SOU O MARKER 2",
-                description: "Olá",
+                title: "TITULO",
+                description: "DESCRIPTION",
                 status: 1
             },
             {
@@ -49,8 +49,8 @@ class MapScreen extends React.Component {
                     latitude: -3.0100688,
                     longitude: -59.9139064
                 },
-                title: "EU SOU O MARKER 3",
-                description: "Olá",
+                title: "TITULO",
+                description: "DESCRIPTION",
                 status: 2
             }
         ];
@@ -77,10 +77,14 @@ class MapScreen extends React.Component {
     addMarker() {
         let markers = this.state.markers;
 
-        let minLat = -3.06;
+        let minLat = -3.03;
         let maxLat = -3.08;
-        let minLng = -59.94;
-        let maxLng = -59.98;
+        let minLng = -59.90;
+        let maxLng = -60.00;
+
+        //Random.range(-3.03, -3.08)
+
+        //(Math.random() * (min - max) + max)
 
         markers.push({
             coordinate: {
@@ -106,6 +110,7 @@ class MapScreen extends React.Component {
             center: evt.nativeEvent.coordinate,
             zoom: 16
         });
+
     }
 
     onDirectionReady(result) {
@@ -126,7 +131,7 @@ class MapScreen extends React.Component {
         return this.state.markers.map((marker, i) => {
 
             let image;
-        
+
             switch(marker.status){
                 case 0:
                     image = Marker1;
@@ -138,6 +143,10 @@ class MapScreen extends React.Component {
 
                 case 2:
                     image = Marker3;
+                    break;
+
+                default:
+                    image = "";
                     break;
             }
 
@@ -162,11 +171,12 @@ class MapScreen extends React.Component {
                             borderWidth: 1,
                             alignItems: "center",
                             justifyContent: "center",
-                            backgroundColor: "#FBFBFB",
+                            backgroundColor: "#CACACA",
                             borderColor: "#CACACA"
                         }}>
                             <Text>{marker.title}</Text>
                             <Text>{marker.description}</Text>
+                            <Image source={Marker1} style={{width: 40, height: 40, position: "absolute"}} />
                         </View>    
                     </Callout>
 
@@ -201,11 +211,20 @@ class MapScreen extends React.Component {
                     <MapViewDirections
                         origin={this.state.markers[0].coordinate}
                         destination={this.state.markers[1].coordinate}
-                        waypoints={this.getWaypoints()}
                         apikey={"AIzaSyD2PXtZudNIgqqsxjrdXp3QZxcKnglmblY"}
                         optimizeWaypoints={true}
                         strokeWidth={2}
                         strokeColor="purple"
+                        onReady={this.onDirectionReady}
+                    />
+
+                    <MapViewDirections
+                        origin={this.state.markers[1].coordinate}
+                        destination={this.state.markers[2].coordinate}
+                        apikey={"AIzaSyD2PXtZudNIgqqsxjrdXp3QZxcKnglmblY"}
+                        optimizeWaypoints={true}
+                        strokeWidth={4}
+                        strokeColor="red"
                         onReady={this.onDirectionReady}
                     />
 

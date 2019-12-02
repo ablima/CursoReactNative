@@ -129,6 +129,10 @@ class FormScreen extends React.Component {
     }
 
     render() {
+
+        console.info("FORM");
+        console.info(this.props.user);
+
         return (
             <View>
                 <Form ref={r => this._form = r}

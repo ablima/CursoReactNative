@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Image, Button} from 'react-native';
 
+import { connect } from 'react-redux';
+
 import ImageCard from './../../Components/ImageCard/imageCard';
 import RoundCard from './../../Components/RoundCard/roundCard';
 
@@ -68,6 +70,9 @@ class HomeScreen extends React.Component {
 
         let data = [Image1, Image2, Image3];
 
+        console.info("HOME");
+        console.info(this.props.user);
+
         return (
             <View>
                 <Button title="Go to map" onPress={() => Actions.map()} />
@@ -100,4 +105,9 @@ class HomeScreen extends React.Component {
 
 }
 
-export default HomeScreen;
+const mapStateToProps = function(state){
+    const { user } = state;
+    return { user };
+}
+
+export default connect(mapStateToProps)(HomeScreen);
